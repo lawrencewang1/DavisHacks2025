@@ -1,4 +1,3 @@
-// Example funding data
 const fundingData = {
     "Los Angeles": 32000000,
     "Alameda": 15000000,

@@ -12,16 +12,24 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&display=swap" rel="stylesheet">
 </head>
+  <body>
+    <div class="container">
+      <!-- Sidebar is outside the context block -->
+      <div id="sidebar" class="sidebar hidden">
+        <button id="closeSidebar">×</button>
+        <h2 id="countyName">County Name</h2>
+        <p><strong> Funding: </strong> <span id="countyFunding">$0</span></p>
+        <p><strong> Details: </strong></p>
+        <div id="countyDetails">Select a county to view details.</div>
+      </div>
 
-<body>
-  <div class="container">
-    <div class="context">
-      <h1>California County Funding Map</h1>
-      <div id="map"></div>
+      <div class="context">
+        <h1>California County Funding Map</h1>
+        <div id="map"></div>
+      </div>
     </div>
-  </div>
 
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
-</body>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+  </body>
 </html>
