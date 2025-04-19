@@ -1,56 +1,25 @@
-.sidebar {
-  position: fixed;
-  right: 0;
-  top: 0;
-  width: 300px;
+html, body {
+  margin: 0;
+  padding: 0;
   height: 100%;
-  background-color: #F4F4ED; /* Matches your text color theme */
-  color: #333;
-  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
-  border-left: 2px solid #e0e0e0;
-  padding: 2rem 1.5rem;
-  transform: translateX(100%);
-  transition: transform 0.3s ease-in-out;
-  z-index: 999;
-  font-family: "Playwrite GB S", serif;
+  font-family: 'Playwrite GB S', sans-serif;
+}
+
+.container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  align-items: center;
 }
 
-.sidebar.visible {
-  transform: translateX(0);
+.context h1 {
+  margin-top: 20px;
+  font-size: 24px;
 }
 
-#closeSidebar {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  color: #333;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-#closeSidebar:hover {
-  transform: scale(1.2);
-}
-
-#countyName {
-  font-size: 2rem;
-  margin-top: 2.5rem;
-  color: #4e54c8;
-}
-
-#countyFunding {
-  font-size: 1.2rem;
-  color: #444;
-}
-
-#countyDetails {
-  font-size: 1rem;
-  color: #555;
-  line-height: 1.5;
+#map {
+  width: 90vw;
+  height: 80vh;
+  margin: 20px 0;
+  border: 2px solid #ccc;
+  border-radius: 10px;
 }
