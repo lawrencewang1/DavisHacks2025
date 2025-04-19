@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>jOptimal</title>
+    <link rel="stylesheet" href="map.css" />
+    <link rel="javascript" href="index.js" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&display=swap" rel="stylesheet">
+</head>
+    <body>
+        <div class="container">
+            <div class="context">
+                <h1>the map goes here :D</h1>
+            </div>
+
+            <div class="page-transition"> </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const mapContainer = document.querySelector('.map-container');
+                const backBtn = document.querySelector('.back-btn');
+                const pageTransition = document.querySelector('.page-transition');
+                
+                // Check if we're coming from a transition
+                if (sessionStorage.getItem('pageTransition') === 'true') {
+                    // Clear the flag
+                    sessionStorage.removeItem('pageTransition');
+                    
+                    // Add entrance animation class
+                    mapContainer.classList.add('map-entrance');
+                }
+                
+                // Always make the map container visible
+                mapContainer.style.opacity = '1';
+                
+                // Handle back button click
+                backBtn.addEventListener('click', function() {
+                    // Activate transition overlay
+                    pageTransition.classList.add('active');
+                    
+                    // After transition completes, go back to index.html
+                    setTimeout(function() {
+                        window.location.href = 'index.html';
+                    }, 600);
+                });
+            });
+        </script>
+        
+    </body>
+</html>
