@@ -14,7 +14,6 @@ body {
   padding: 0 2rem;
 }
 
-/* Page header */
 .page-header {
   text-align: center;
   margin-bottom: 2.5rem;
@@ -34,14 +33,13 @@ body {
   margin: 0 auto;
 }
 
-/* Main content layout */
 .content-wrapper {
   display: flex;
   gap: 2.5rem;
   align-items: flex-start;
 }
 
-/* Control sidebar */
+/* cntrol sidebar */
 .sidebar {
   background-color: white;
   padding: 1.75rem;
@@ -97,7 +95,6 @@ body {
   box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
 }
 
-/* Map container */
 .map-container {
   flex-grow: 1;
 }
@@ -110,7 +107,7 @@ body {
   overflow: hidden;
 }
 
-/* County info panel */
+/* county info panel */
 #county-side-panel {
   position: absolute;
   left: 50%;
@@ -157,7 +154,6 @@ body {
   margin: 1.5rem 0;
 }
 
-/* Close button */
 .close-button {
   position: absolute;
   right: 1rem;
@@ -181,7 +177,6 @@ body {
   color: #4a5568;
 }
 
-/* Detail items */
 .detail-item {
   display: flex;
   border-bottom: 1px solid #edf2f7;
@@ -198,7 +193,6 @@ body {
   flex-grow: 1;
 }
 
-/* Data visualization section */
 .data-visualization {
   margin-top: 1.5rem;
   background-color: #f8fafc;
@@ -213,7 +207,7 @@ body {
   color: #2d3748;
 }
 
-/* Responsive adjustments */
+/* responsive adjustments */
 @media (max-width: 992px) {
   .content-wrapper {
     flex-direction: column;
