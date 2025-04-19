@@ -14,13 +14,22 @@
  </head>
  
  <body>
-   <div class="container">
-     <div class="context">
-       <h1>California County Funding Map</h1>
-       <div id="map"></div>
-     </div>
-   </div>
- 
-   <!-- Leaflet JS -->
-   <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
- </body>
+  <div class="app-container">
+    <div class="sidebar">
+      <h2>Display:</h2>
+      <select id="data-toggle">
+        <option value="funding">School Funding</option>
+        <option value="scores">Test Scores</option>
+      </select>
+    </div>
+
+    <div class="map-container">
+      <h1>California Counties</h1>
+      <div id="map"></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

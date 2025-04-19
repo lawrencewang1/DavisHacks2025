@@ -1,48 +1,51 @@
-html, body {
+body {
   margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: "Playwrite GB S", serif;
-  background-color: #f8f9fa;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f4f4;
   color: #333;
 }
 
-.container {
+.app-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
   padding: 2rem;
+  gap: 2rem;
 }
 
-.context {
+.sidebar {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.sidebar select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.map-container {
   text-align: center;
-  width: 100%;
-  max-width: 800px;
 }
 
-.context h1 {
-  font-size: 2rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  background-color: #e1e1e1;
-  color: #222;
-  padding: 0.75rem 1.25rem;
-  border-radius: 8px;
-  display: inline-block;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1.5rem;
+.map-container h1 {
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  font-weight: 600;
 }
 
 #map {
-  width: 60vw;
-  height: 60vh;
+  height: 600px;
+  width: 700px;
   border-radius: 12px;
-  border: none;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-#map:hover {
-  transform: scale(1.01);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
 }
