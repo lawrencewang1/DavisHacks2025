@@ -1,46 +1,35 @@
-// Example funding data
-const fundingData = {
-  "Los Angeles": 32000000,
-  "Alameda": 15000000,
-  "San Francisco": 40000000,
-  "Modoc": 1000000,
-  // add more as needed
-};
+const map = L.map('map', {
+  zoomControl: false,
+  dragging: false,
+  scrollWheelZoom: false,
+  doubleClickZoom: false,
+  boxZoom: false,
+  touchZoom: false,
+  attributionControl: false
+}).setView([37.5, -119.5], 6);
 
-const lowThreshold = 5000000;
-const midThreshold = 20000000;
-
-function getColor(funding) {
-  if (funding < lowThreshold) return "#ff4d4d"; // red
-  if (funding < midThreshold) return "#ffd11a"; // yellow
-  return "#4dff4d"; // green
-}
-
-const map = L.map('map').setView([37.5, -119.5], 6); // centered on California
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: 'Map data © OpenStreetMap contributors'
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  maxZoom: 6,
+  minZoom: 6
 }).addTo(map);
 
-// Load GeoJSON (from local file or remote URL)
-fetch('california-counties.geojson') // Make sure this file is in your project folder!
-  .then(response => response.json())
+// Load county outlines (you must provide a local or hosted GeoJSON file)
+fetch('california-counties.geojson')
+  .then(res => res.json())
   .then(data => {
     L.geoJSON(data, {
-      style: feature => {
-        const countyName = feature.properties.name;
-        const funding = fundingData[countyName] || 0;
-        return {
-          fillColor: getColor(funding),
-          weight: 1,
-          color: "#333",
-          fillOpacity: 0.7
-        };
-      },
-      onEachFeature: (feature, layer) => {
-        const name = feature.properties.name;
-        const funding = fundingData[name] || 0;
-        layer.bindPopup(`<strong>${name} County</strong><br>Funding: $${funding.toLocaleString()}`);
+      style: {
+        color: '#555',
+        weight: 1,
+        fillOpacity: 0.2,
+        fillColor: '#cccccc'
       }
     }).addTo(map);
   });
+
+// Placeholder for dropdown functionality
+document.getElementById('data-toggle').addEventListener('change', e => {
+  const selected = e.target.value;
+  console.log(`Switched to: ${selected}`);
+  // You'd call your backend or color logic here
+});
