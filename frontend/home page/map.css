@@ -2,24 +2,47 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: 'Playwrite GB S', sans-serif;
+  font-family: "Playwrite GB S", serif;
+  background-color: #f8f9fa;
+  color: #333;
 }
 
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 2rem;
+}
+
+.context {
+  text-align: center;
+  width: 100%;
+  max-width: 800px;
 }
 
 .context h1 {
-  margin-top: 20px;
-  font-size: 24px;
+  font-size: 2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background-color: #e1e1e1;
+  color: #222;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  display: inline-block;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
 }
 
 #map {
-  width: 90vw;
-  height: 80vh;
-  margin: 20px 0;
-  border: 2px solid #ccc;
-  border-radius: 10px;
+  width: 60vw;
+  height: 60vh;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+#map:hover {
+  transform: scale(1.01);
 }
