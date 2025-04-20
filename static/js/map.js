@@ -159,42 +159,42 @@ document.addEventListener('DOMContentLoaded', function () {
       loadDataAndUpdate(initialToggle);
     });
 
-  function loadDataAndUpdate(toggleValue) {
-    fetch('/map-data', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ toggle_value: toggleValue })
-    })
-      .then(res => res.json())
-      .then(dataDict => {
-        const key = toggleValue === 'scores' ? 'Value' : 'Expense per ADA';
-        const values = Object.values(dataDict).map(d => d[key]).filter(Number.isFinite);
-        const min = Math.min(...values);
-        const max = Math.max(...values);
-
-        const colorRange = toggleValue === 'scores'
-          ? ['#deebf7', '#08306b']
-          : ['#ccece6', '#00441b'];
-
-        geoJSONLayer.eachLayer(layer => {
-          const name = layer.feature.properties.name || layer.feature.properties.NAME;
-          const data = dataDict[name];
-          if (!data) return;
-
-          const value = data[key];
-          const fillColor = getColor(value, min, max, colorRange);
-
-          layer.setStyle({
-            fillColor,
-            fillOpacity: 0.7,
-            color: '#4a5568',
-            weight: 1
+    function loadDataAndUpdate(toggleValue) {
+      fetch(`/api/education-data?toggle_value=${toggleValue}`)
+        .then(res => res.json())
+        .then(dataDict => {
+          const key = toggleValue === 'scores' ? 'Value' : 'Expense per ADA';
+          const values = Object.values(dataDict).map(d =>
+            typeof d === 'object' ? d[key] : d
+          ).filter(Number.isFinite);
+    
+          const min = Math.min(...values);
+          const max = Math.max(...values);
+    
+          const colorRange = toggleValue === 'scores'
+            ? ['#deebf7', '#3182bd', '#08519c']
+            : ['#fee5d9', '#fcae91', '#fb6a4a'];
+    
+          geoJSONLayer.eachLayer(layer => {
+            const name = layer.feature.properties.name || layer.feature.properties.NAME;
+            const data = dataDict[name];
+            if (!data) return;
+    
+            const value = typeof data === 'object' ? data[key] : data;
+            const fillColor = getColor(value, min, max, colorRange);
+    
+            layer.setStyle({
+              fillColor,
+              fillOpacity: 0.7,
+              color: '#4a5568',
+              weight: 1
+            });
+    
+            // Merge data into sidebar props
+            Object.assign(layer.feature.properties, data);
           });
-
-          Object.assign(layer.feature.properties, data); // merge into feature for sidebar
         });
-      });
-  }
+    }
 
   document.getElementById('data-toggle').addEventListener('change', e => {
     const selected = e.target.value;
