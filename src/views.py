@@ -8,9 +8,9 @@ def read_final():
 
 @app.route('/map/', methods=['POST'])
 def toggle():
-    toggle_value = request.json['toggle_value']
+    toggle_value = request.form['toggle_value']
 
-    if toggle_value == 'funding':
+    if toggle == 'funding':
         return funding_map()
     else:
         return testing_map()
@@ -18,7 +18,7 @@ def toggle():
 def funding_map():
     df = read_final()
     return_dict = {}
-    for i in range(len(df)):
+    for i in len(df):
         return_dict[df['County Name'][i]] = df['Expense per ADA'][i]
     return return_dict
 
