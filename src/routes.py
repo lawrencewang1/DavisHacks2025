@@ -3,6 +3,10 @@ from flask import render_template, request, Response
 from .chat import generate_response
 from .views import toggle
 
+# class ContextWindow:
+#     def __init__(self):
+#         history = []
+
 @app.route("/")
 def home():
     return render_template("home.html")
