@@ -83,3 +83,102 @@
     </div>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>jOptimal</title>
+    <link rel="stylesheet" href="home.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="home.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+
+        <nav class="navbar">
+            <div class="nav-links">
+              <a href="home.html">Home</a>
+              <a href="map.html">Map</a>
+              <a href="about.html">About</a>
+            </div>
+          </nav>
+
+        <div class="context">
+            <h1>jOptimal</h1>
+            <a href="map.html" class="explore-btn">View Key Findings</a>
+            <canvas id="histogramChart" width="400" height="300"></canvas>
+        </div>
+
+
+
+
+        <div class="area">
+            <ul class="school-items">
+                <li>
+                    <!-- pencil -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87L20.71,7.04M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"/>
+                    </svg>
+                </li>
+                <li>
+                    <!-- book -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M19,2L14,6.5V17.5L19,13V2M6.5,5C4.55,5 2.45,5.4 1,6.5V21.16C1,21.41 1.25,21.66 1.5,21.66C1.6,21.66 1.65,21.59 1.75,21.59C3.1,20.94 5.05,20.5 6.5,20.5C8.45,20.5 10.55,20.9 12,22C13.35,21.15 15.8,20.5 17.5,20.5C19.15,20.5 20.85,20.81 22.25,21.56C22.35,21.61 22.4,21.59 22.5,21.59C22.75,21.59 23,21.34 23,21.09V6.5C22.4,6.05 21.75,5.75 21,5.5V19C19.9,18.65 18.7,18.5 17.5,18.5C15.8,18.5 13.35,19.15 12,20V6.5C10.55,5.4 8.45,5 6.5,5Z"/>
+                    </svg>
+                </li>
+                <li>
+                    <!--paper -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20M8,13.91C8,13.36 8.27,12.71 8.66,12.32C9.05,11.93 9.54,11.75 10.08,11.75C10.63,11.75 11.12,11.93 11.5,12.32C11.88,12.71 12.12,13.36 12.12,13.91C12.12,14.46 11.88,15.09 11.5,15.5C11.11,15.87 10.63,16.09 10.08,16.09C9.54,16.09 9.05,15.87 8.66,15.5C8.27,15.09 8,14.46 8,13.91M10.08,14.75C10.28,14.75 10.5,14.64 10.66,14.46C10.83,14.29 10.92,14.07 10.92,13.91C10.92,13.76 10.83,13.53 10.66,13.35C10.5,13.19 10.29,13.07 10.08,13.07C9.88,13.07 9.67,13.19 9.5,13.35C9.33,13.53 9.25,13.76 9.25,13.91C9.25,14.07 9.33,14.29 9.5,14.46C9.67,14.64 9.87,14.75 10.08,14.75M15.75,14.04C15.31,14.04 14.88,14.12 14.46,14.28V13.08H15.5C15.53,13.08 15.56,13.06 15.56,13.03V12.03C15.56,12 15.53,11.97 15.5,11.97H13.5C13.47,11.97 13.44,12 13.44,12.03V15.53C13.44,15.56 13.47,15.59 13.5,15.59H14.46C14.59,15.59 14.71,15.55 14.81,15.5C15.06,15.37 15.4,15.25 15.74,15.25C15.89,15.25 16.03,15.28 16.17,15.31C16.28,15.34 16.38,15.36 16.5,15.36V14C16.26,14.03 16.03,14.04 15.75,14.04Z"/>
+                    </svg>
+                </li>
+                <li>
+                    <!-- ruler -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M3,5V21H21V5A2,2 0 0,0 19,3H5A2,2 0 0,0 3,5M7,7H9V9H7V7M7,11H9V13H7V11M7,15H9V17H7V15M11,7H13V9H11V7M11,11H13V13H11V11M11,15H13V17H11V15M15,7H17V9H15V7M15,11H17V13H15V11M15,15H17V17H15V15Z"/>
+                    </svg>
+                </li>
+                <li>
+                    <!-- backpack -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M20,8V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V8A2,2 0 0,1 6,6H18A2,2 0 0,1 20,8M17,12H13V14H17V12M6,12H7V14H6V12M6,16H7V18H6V16M18,7H6A1,1 0 0,0 5,8V10H19V8A1,1 0 0,0 18,7M8,4H16V6H8V4Z"/>
+                    </svg>
+                </li>
+                <li>
+                    <!-- notebook -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M17,4V10L15,8L13,10V4H9V20H19V4H17M3,7V5H5V4C5,2.89 5.9,2 7,2H19C20.05,2 21,2.95 21,4V20C21,21.05 20.05,22 19,22H7C5.95,22 5,21.05 5,20V19H3V17H5V13H3V11H5V7H3M5,5V7H7V5H5M5,19H7V17H5V19M5,13H7V11H5V13Z"/>
+                    </svg>
+                </li>
+                <li>
+                    <!-- pencil case-->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1"/>
+                    </svg>
+                </li>
+                <li>
+                    <!-- calculator-->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M7,2H17A2,2 0 0,1 19,4V20A2,2 0 0,1 17,22H7A2,2 0 0,1 5,20V4A2,2 0 0,1 7,2M7,4V8H17V4H7M7,10V12H9V10H7M11,10V12H13V10H11M15,10V12H17V10H15M7,14V16H9V14H7M11,14V16H13V14H11M15,14V16H17V14H15M7,18V20H9V18H7M11,18V20H13V18H11M15,18V20H17V18H15Z"/>
+                    </svg>
+                </li>
+                <li>
+                    <!-- clock -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z"/>
+                    </svg>
+                </li>
+                <li>
+                    <!-- apple -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M20,10C22,13 17,22 15,22C13,22 13,21 12,21C11,21 11,22 9,22C7,22 2,13 4,10C6,7 9,7 11,8V5C5.38,8.07 4.11,3.78 4.11,3.78C4.11,3.78 6.77,0.19 11,5V3H13V8C15,7 18,7 20,10Z"/>
+                    </svg>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
