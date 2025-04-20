@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-
-  const map = L.map('map', {  // initialize map
+  // Initialize map
+  const map = L.map('map', {
     zoomControl: true,
     dragging: true,
     scrollWheelZoom: true,
     doubleClickZoom: true,
     boxZoom: true,
     touchZoom: true,
+<<<<<<< HEAD
     attributionControl: true,
     minZoom: 6,
     maxZoom: 9
@@ -18,13 +19,20 @@ document.addEventListener('DOMContentLoaded', function() {
   );
   map.setMaxBounds(calBounds);
 
+=======
+    attributionControl: true
+  }).setView([37.5, -119.5], 6);
+
+  // Add tile layer with improved styling
+>>>>>>> parent of 66d12bc (saving for now, need to put heat map)
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
     subdomains: 'abcd',
     maxZoom: 9,
-    minZoom: 6
+    minZoom: 5
   }).addTo(map);
 
+  // Create custom control for map legend
   const legend = L.control({ position: 'bottomright' });
   legend.onAdd = function(map) {
     const div = L.DomUtil.create('div', 'info legend');
@@ -42,11 +50,13 @@ document.addEventListener('DOMContentLoaded', function() {
   };
   legend.addTo(map);
 
+  // Create a div for the side panel popup
   const sidePanel = document.createElement('div');
   sidePanel.id = 'county-side-panel';
   sidePanel.style.display = 'none';
   document.body.appendChild(sidePanel);
 
+  // Close button for the side panel
   const closeButton = document.createElement('button');
   closeButton.textContent = '×';
   closeButton.className = 'close-button';
@@ -55,10 +65,12 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   sidePanel.appendChild(closeButton);
 
+  // Get selected data type
   function getSelectedDataType() {
     return document.getElementById('data-toggle').value;
   }
 
+<<<<<<< HEAD
   // PLACEHOLDER --> get color based on value 
   function getFundingColor(value) {
     return value > 15000 ? '#00441b' :
@@ -96,28 +108,38 @@ document.addEventListener('DOMContentLoaded', function() {
         Object.assign(layer.feature.properties, countyData);
       }
     });
+=======
+  // Get color based on value (placeholder function)
+  function getColor(value) {
+    return value > 66 ? '#2171b5' : 
+           value > 33 ? '#7fb3ec' : 
+                        '#d4eaff';
+>>>>>>> parent of 66d12bc (saving for now, need to put heat map)
   }
 
-  fetch('california-counties.geojson') // load counties + interactivity
+  // Load county outlines and add interactivity
+  fetch('california-counties.geojson')
     .then(res => res.json())
     .then(data => {
-     
-      
-      function onCountyClick(e) { // handles county clicks
+      // Define a function to handle county clicks
+      function onCountyClick(e) {
         const props = e.target.feature.properties;
         const countyName = props.name || props.NAME || 'Unknown County';
         
+        // Create content for the side panel
         sidePanel.innerHTML = '';
         sidePanel.appendChild(closeButton);
         
+        // Add county title
         const title = document.createElement('h2');
         title.textContent = countyName;
         sidePanel.appendChild(title);
         
+        // Create container for details
         const detailsContainer = document.createElement('div');
         detailsContainer.className = 'county-details';
         
-        // display county information
+        // Display county information
         const createDetailItem = (label, value) => {
           const item = document.createElement('div');
           item.className = 'detail-item';
@@ -125,6 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
           return item;
         };
         
+        // Add available county properties
         Object.entries(props).forEach(([key, value]) => {
           if (key !== 'name' && key !== 'NAME') {
             detailsContainer.appendChild(createDetailItem(key, value));
@@ -133,6 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         sidePanel.appendChild(detailsContainer);
         
+        // Add placeholder for data that would be shown based on dropdown selection
         const dataMessage = document.createElement('div');
         dataMessage.className = 'data-visualization';
         dataMessage.innerHTML = `
@@ -141,14 +165,18 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         sidePanel.appendChild(dataMessage);
         
+        // Show the side panel
         sidePanel.style.display = 'block';
         
+        // Highlight the selected county
         resetHighlight();
         highlightCounty(e.target);
       }
       
+      // Store the currently highlighted layer
       let highlightedLayer = null;
       
+      // Function to highlight a county
       function highlightCounty(layer) {
         highlightedLayer = layer;
         layer.setStyle({
@@ -163,13 +191,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
       
+      // Function to reset highlights
       function resetHighlight() {
         if (highlightedLayer) {
           geoJSONLayer.resetStyle(highlightedLayer);
         }
       }
       
-      // style counties with a consistent color for now
+      // Style counties with a consistent color for now
       function getCountyStyle(feature) {
         return {
           fillColor: '#a0c8e6',
@@ -180,9 +209,11 @@ document.addEventListener('DOMContentLoaded', function() {
         };
       }
       
+      // Create the GeoJSON layer
       const geoJSONLayer = L.geoJSON(data, {
         style: getCountyStyle,
         onEachFeature: function(feature, layer) {
+          // Add county name as tooltip
           const countyName = feature.properties.name || feature.properties.NAME || 'Unknown County';
           layer.bindTooltip(countyName, {
             permanent: false,
@@ -191,6 +222,7 @@ document.addEventListener('DOMContentLoaded', function() {
             offset: [0, 0]
           });
           
+          // Make each county clickable
           layer.on({
             click: onCountyClick,
             mouseover: function(e) {
@@ -215,8 +247,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }).addTo(map);
       
+      // Update map data when dropdown selection changes
       document.getElementById('data-toggle').addEventListener('change', e => {
+<<<<<<< HEAD
         const selected = e.target.value;  // 'funding' or 'scores'
+=======
+        const selected = e.target.value;
+        console.log(`Switched to: ${selected}`);
+        
+        // Update displayed data type if side panel is open
+>>>>>>> parent of 66d12bc (saving for now, need to put heat map)
         const currentDataType = document.getElementById('current-data-type');
         if (currentDataType) currentDataType.textContent = selected;
 
@@ -238,6 +278,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       });
       
+      // Optional: Add a year selector event listener if you've added that dropdown
+      const yearSelector = document.getElementById('year-selector');
+      if (yearSelector) {
+        yearSelector.addEventListener('change', e => {
+          const selectedYear = e.target.value;
+          console.log(`Year changed to: ${selectedYear}`);
+        });
+      }
     })
     .catch(error => {
       console.error('Error loading GeoJSON data:', error);
