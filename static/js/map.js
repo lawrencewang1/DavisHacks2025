@@ -28,10 +28,10 @@ document.addEventListener('DOMContentLoaded', function () {
   function updateLegend(div, toggleValue) {
     let colors, label;
     if (toggleValue === 'scores') {
-      colors = ['#E0F7FA', '#80B8D9', '#003366'];  // light → mid → dark blue
+      colors = ['#deebf7', '#4292c6', '#08519c'];  // light → mid → dark blue
       label = 'Scores';
     } else {
-      colors = ['#FFE5E5', '#FF9999', '#660000'];  // light → mid → dark red
+      colors = ['#e0f3db', '#74c476', '#00441b'];  // light → mid → dark red
       label = 'Funding';
     }
 
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const detailsContainer = document.createElement('div');
     detailsContainer.className = 'county-details';
 
-    const excludedKeys = new Set(['name', 'NAME', 'cartodb_id', 'created_at', 'updated_at']);
+    const excludedKeys = new Set(['name', 'NAME', 'cartodb_id', 'created_at', 'updated_at', 'Value']);
 
     Object.entries(props).forEach(([key, value]) => {
       if (!excludedKeys.has(key)) {
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const dataMessage = document.createElement('div');
     dataMessage.className = 'data-visualization';
     dataMessage.innerHTML = `
-      <h3>Selected Data: <span id="current-data-type">${getSelectedDataType()}</span></h3>
+      <h3><span id="current-data-type">${getSelectedDataType().charAt(0).toUpperCase() + getSelectedDataType().slice(1)}</span></h3>
     `;
     sidePanel.appendChild(dataMessage);
 
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 target.setStyle({
                   ...target.options._originalStyle,
                   weight: 2,
-                  color: '#444'
+                  color: '#00000'
                 });
               }
             },
@@ -190,21 +190,20 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch(`/api/education-data?toggle_value=${toggleValue}`)
       .then(res => res.json())
       .then(dataDict => {
-        const key = toggleValue === 'scores' ? 'Value' : 'Expense per ADA';
+        const key = toggleValue === 'scores' ? 'Value' : 'Expense per Child';
         const values = Object.values(dataDict).map(d => typeof d === 'object' ? d[key] : d).filter(Number.isFinite);
         const min = Math.min(...values);
         const max = Math.max(...values);
 
         const scale = toggleValue === 'scores'
-          ? chroma.scale(['#E0F7FA', '#003366']).mode('lab').domain([min, max])
-          : chroma.scale(['#FFE5E5', '#660000']).mode('lab').domain([min, max]);
-
+          ? chroma.scale(['#deebf7', '#4292c6', '#08519c']).mode('lab').domain([min, (min + max) / 2, max])
+          : chroma.scale(['#e0f3db', '#74c476', '#00441b']).mode('lab').domain([min, (min + max) / 2, max]);
         geoJSONLayer.eachLayer(layer => {
           const name = layer.feature.properties.name || layer.feature.properties.NAME;
           const data = dataDict[name];
           if (!data) return;
 
-          const value = (toggleValue === 'scores') ? data['Value'] : data['Expense per ADA'];
+          const value = (toggleValue === 'scores') ? data['Value'] : data['Expense per Child'];
           const style = {
             fillColor: getColor(value, scale),
             fillOpacity: 0.7,
@@ -213,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
           };
 
           // Clear old data keys
-          ['Mean Score', 'Percentage Passed', 'Expense per ADA', 'Value'].forEach(k => {
+          ['Mean Score', 'Percentage Passed', 'Expense per Child', 'Value'].forEach(k => {
             delete layer.feature.properties[k];
           });
 

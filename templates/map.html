@@ -12,6 +12,14 @@
 </head>
 
 <body>
+  <div class="container">
+    <nav class="navbar">
+      <div class="nav-links">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('map') }}">Map</a>
+      </div>
+    </nav>
+  </div>
   <div class="app-container">
     <header class="page-header">
       <h1>California Counties Explorer</h1>
@@ -34,7 +42,7 @@
           <button class="close">× Close</button>
           <div class="chat">
             <div class="model">
-              <p>Hi, I'm John! Ready to explore education in CA counties?</p>
+              <p>Hi, I'm John! Ready to explore equitable results in CA counties?</p>
             </div>
           </div>
           <div class="input-area">
