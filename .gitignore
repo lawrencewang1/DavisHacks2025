@@ -6,5 +6,5 @@ env/
 .env
 node_modules/
 .venv/
-src/__pycache__
 __pycache__
+src/__pycache__
