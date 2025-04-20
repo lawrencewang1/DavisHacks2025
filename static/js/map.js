@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
   function loadDataAndUpdate(toggleValue) {
-    fetch('/map/', {
+    fetch('/map-data', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ toggle_value: toggleValue })
@@ -232,12 +232,12 @@ function sendMessage() {
         <p>${userMessage}</p>
       </div>
     `)
-    fetch('/process', {
+    fetch('/chat', {
       method: 'POST',
         headers: {
           'Content-Type': 'text/plain'
         },
-        body: 'Getting model response.'
+        body: userMessage
       })
       .then(response => response.text())
       .then(data => {

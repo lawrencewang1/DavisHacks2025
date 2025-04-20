@@ -1,6 +1,4 @@
 import pandas as pd
-from flask import request
-from src import app
 
 
 def read_final():
@@ -8,10 +6,7 @@ def read_final():
     return df
 
 
-@app.route('/map/', methods=['POST'])
-def toggle():
-    toggle_value = request.form['toggle_value']
-
+def toggle(toggle_value):
     if toggle_value == 'funding':
         return funding_map()
     else:
@@ -21,7 +16,7 @@ def toggle():
 def funding_map():
     df = read_final()
     return_dict = {}
-    for i in len(df):
+    for i in range(len(df)):
         return_dict[df['County Name'][i]] = df['Expense per ADA'][i]
     return return_dict
 
@@ -29,7 +24,7 @@ def funding_map():
 def testing_map():
     df = read_final()
     return_dict = {}
-    for i in len(df):
+    for i in range(len(df)):
         return_dict[df['County Name'][i]] = {}
         return_dict[df['County Name'][i]]['Mean Score'] = df['Mean Score'][i]
         return_dict[df['County Name'][i]]['Percentage Passed'] = df['Percentage Standard Met and Above'][i]
