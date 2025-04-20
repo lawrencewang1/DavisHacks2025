@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Initialize map
+  const calBounds = L.latLngBounds(
+    [30, -126],  // Southwest (includes San Diego)
+    [42, -113.5] // Northeast (gives enough room above Klamath Falls)
+  );
+
   const map = L.map('map', {
     zoomControl: true,
     dragging: true,
@@ -8,15 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
     boxZoom: true,
     touchZoom: true,
     attributionControl: true,
-    minZoom: 6,
-    maxZoom: 9
-  }).setView([37.5, -119.5], 6);
-
-  const calBounds = L.latLngBounds(
-    [32.5, -125], // Southwest corner (lat, lng)
-    [42.1, -113.5] // Northeast corner
-  );
-  map.setMaxBounds(calBounds);
+    minZoom: 5.6,
+    maxZoom: 9,
+    maxBounds: calBounds,
+    worldCopyJump: true,
+    maxBoundsViscosity: 0.5
+  }).setView([37.5, -119.5], 5.65);
 
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
@@ -32,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
     div.style.backgroundColor = 'white';
     div.style.padding = '10px';
     div.style.borderRadius = '4px';
-    div.style.boxShadow = '0 1px 5px rgba(0,0,0,0.2)';
+    div.style.boxShadow = '0 1px 5px rgba(0,0,0,0.2)';23.3
     
     div.innerHTML = '<h4 style="margin-top:0;margin-bottom:10px;font-size:14px;font-weight:600;">Data Legend</h4>' +
       '<div style="display:flex;align-items:center;margin-bottom:5px;"><span style="display:inline-block;width:15px;height:15px;margin-right:5px;background-color:#d4eaff;"></span> Lower</div>' +
@@ -96,7 +98,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       }
     }).addTo(map);
-
+    
+    function getSelectedDataType() {
+      return document.getElementById('data-toggle').value;
+    }
     // Function to handle county clicks
     function onCountyClick(e) {
       const props = e.target.feature.properties;
