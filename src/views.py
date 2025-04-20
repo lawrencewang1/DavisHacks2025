@@ -2,18 +2,21 @@ import pandas as pd
 from flask import request
 from src import app
 
+
 def read_final():
     df = pd.read_csv('data/final_testing_expense.csv')
     return df
+
 
 @app.route('/map/', methods=['POST'])
 def toggle():
     toggle_value = request.form['toggle_value']
 
-    if toggle == 'funding':
+    if toggle_value == 'funding':
         return funding_map()
     else:
         return testing_map()
+
 
 def funding_map():
     df = read_final()
@@ -21,6 +24,7 @@ def funding_map():
     for i in len(df):
         return_dict[df['County Name'][i]] = df['Expense per ADA'][i]
     return return_dict
+
 
 def testing_map():
     df = read_final()

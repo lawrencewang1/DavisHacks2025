@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>California Counties Data Explorer</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/map.css" />
+</head>
+
+<body>
+  <div class="app-container">
+    <header class="page-header">
+      <h1>California Counties Explorer</h1>
+      <p>Interactive data visualization for educational metrics across California</p>
+    </header>
+
+    <div class="content-wrapper">
+      <aside class="sidebar">
+        <h2>Data Controls</h2>
+        
+        <div class="control-group">
+          <label for="data-toggle">Display Metric:</label>
+          <select id="data-toggle">
+            <option value="funding">School Funding</option>
+            <option value="scores">Test Scores</option>
+            <option value="enrollment">Student Enrollment</option>
+            <option value="teachers">Teacher-Student Ratio</option>
+          </select>
+        </div>
+        
+        <div class="control-group">
+          <label for="year-selector">Year:</label>
+          <select id="year-selector">
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+          </select>
+        </div>
+      </aside>
+
+      <main class="map-container">
+        <div id="map"></div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+  <script src="../static/js/map.js"></script>
+</body>
+</html>
