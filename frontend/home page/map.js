@@ -60,10 +60,42 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // PLACEHOLDER --> get color based on value 
-  function getColor(value) {
-    return value > 66 ? '#2171b5' : 
-           value > 33 ? '#7fb3ec' : 
-                        '#d4eaff';
+  function getFundingColor(value) {
+    return value > 15000 ? '#00441b' :
+           value > 12000 ? '#238b45' :
+           value > 9000  ? '#66c2a4' :
+                           '#ccece6';
+  }
+  
+  function getTestingColor(value) {
+    return value > 130 ? '#08306b' :
+           value > 100 ? '#2171b5' :
+           value > 70  ? '#6baed6' :
+                         '#deebf7';
+  }
+
+  function updateMapStyles(dataDict, selectedKey, toggleValue) {
+    geoJSONLayer.eachLayer(layer => {
+      const countyName = layer.feature.properties.name || layer.feature.properties.NAME;
+      const countyData = dataDict[countyName];
+  
+      if (countyData && countyData[selectedKey] !== undefined) {
+        const value = countyData[selectedKey];
+  
+        const fillColor = toggleValue === 'funding'
+          ? getFundingColor(value)
+          : getTestingColor(value);
+  
+        layer.setStyle({
+          fillColor: fillColor,
+          fillOpacity: 0.7,
+          color: '#4a5568',
+          weight: 1
+        });
+  
+        Object.assign(layer.feature.properties, countyData);
+      }
+    });
   }
 
   fetch('california-counties.geojson') // load counties + interactivity
@@ -184,13 +216,26 @@ document.addEventListener('DOMContentLoaded', function() {
       }).addTo(map);
       
       document.getElementById('data-toggle').addEventListener('change', e => {
-        const selected = e.target.value;
-        console.log(`Switched to: ${selected}`);
-        
+        const selected = e.target.value;  // 'funding' or 'scores'
         const currentDataType = document.getElementById('current-data-type');
-        if (currentDataType) {
-          currentDataType.textContent = selected;
-        }
+        if (currentDataType) currentDataType.textContent = selected;
+
+        fetch('/map/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ toggle_value: selected })
+        })
+        .then(res => res.json())
+        .then(data => {
+          const metricKey = selected === 'scores' ? 'Value' : 'Expense per ADA';
+          updateMapStyles(data, metricKey, selected);
+        })
+        .catch(err => {
+          console.error('Error fetching map data:', err);
+          alert('Failed to load data. Please try again.');
+        });
       });
       
     })
