@@ -203,3 +203,20 @@ document.addEventListener('DOMContentLoaded', function () {
     loadDataAndUpdate(selected);
   });
 });
+
+// toggle chatbot on click
+document.addEventListener("DOMContentLoaded", function () {
+  const toggleBtn = document.getElementById("chat-toggle");
+  const chatWindow = document.querySelector(".chat-window");
+  const closeBtn = chatWindow.querySelector(".close");
+
+  toggleBtn.addEventListener("click", () => {
+    chatWindow.classList.add("show");
+    toggleBtn.style.display = "none";
+  });
+
+  closeBtn.addEventListener("click", () => {
+    chatWindow.classList.remove("show");
+    toggleBtn.style.display = "flex";
+  });
+});
