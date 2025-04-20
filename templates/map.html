@@ -27,19 +27,22 @@
           <select id="data-toggle">
             <option value="funding">School Funding</option>
             <option value="scores">Test Scores</option>
-            <option value="enrollment">Student Enrollment</option>
-            <option value="teachers">Teacher-Student Ratio</option>
           </select>
         </div>
-        
-        <div class="control-group">
-          <label for="year-selector">Year:</label>
-          <select id="year-selector">
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-          </select>
+
+        <div class="chat-window">
+          <button class="close">× Close</button>
+          <div class="chat">
+            <div class="model">
+              <p>Hi, I'm John! Ready to explore education in CA counties?</p>
+            </div>
+          </div>
+          <div class="input-area">
+            <input type="text" placeholder="Ask me anything about the data...">
+            <button>Send</button>
+          </div>
         </div>
+
       </aside>
 
       <main class="map-container">
@@ -51,5 +54,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
   <script src="../static/js/map.js"></script>
+  <button id="chat-toggle" class="chat-toggle-button">💬</button>
 </body>
 </html>
