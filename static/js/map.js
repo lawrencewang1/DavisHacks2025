@@ -1,7 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const financeScaleMin = 15000;
-  const financeScaleMax = 60000;
-
   const mapBounds = L.latLngBounds([33, -126], [42, -113.5]);
 
   const map = L.map('map', {
@@ -20,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function () {
     minZoom: 5
   }).addTo(map);
 
-  // Legend
   const legend = L.control({ position: 'bottomright' });
   legend.onAdd = function () {
     const div = L.DomUtil.create('div', 'info legend');
@@ -35,7 +31,6 @@ document.addEventListener('DOMContentLoaded', function () {
   };
   legend.addTo(map);
 
-  // Side panel
   const sidePanel = document.createElement('div');
   sidePanel.id = 'county-side-panel';
   sidePanel.style.display = 'none';
@@ -47,37 +42,35 @@ document.addEventListener('DOMContentLoaded', function () {
   closeButton.onclick = () => sidePanel.style.display = 'none';
   sidePanel.appendChild(closeButton);
 
-  // Helper: get selected data type from toggle
   function getSelectedDataType() {
     return document.getElementById('data-toggle')?.value || 'funding';
   }
 
-  // Color scale (chroma)
-  function getColor(value, min, max, colorRange=['#fee5d9', '#fcae91', '#cb181d']) {
+  function getColor(value, scale) {
     if (value === undefined || isNaN(value)) return '#ccc';
-    const scale = chroma.scale(colorRange).domain([min, max]);
     return scale(value).hex();
   }
 
-  // Highlight
   let highlightedLayer = null;
 
   function highlightCounty(layer) {
     highlightedLayer = layer;
+    const original = layer.options._originalStyle;
     layer.setStyle({
-      weight: 2,
-      color: '#2c5282',
-      fillOpacity: 0.7,
-      fillColor: '#3182ce'
+      ...original,
+      weight: 2.5,
+      color: '#2c5282'
     });
-    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) layer.bringToFront();
+    layer.bringToFront();
   }
 
-  function resetHighlight() {
-    if (highlightedLayer) geoJSONLayer.resetStyle(highlightedLayer);
+  function clearHighlightedLayer() {
+    if (highlightedLayer) {
+      highlightedLayer.setStyle(highlightedLayer.options._originalStyle);
+      highlightedLayer = null;
+    }
   }
 
-  // County style (default)
   function getCountyStyle(feature) {
     return {
       fillColor: '#a0c8e6',
@@ -88,8 +81,23 @@ document.addEventListener('DOMContentLoaded', function () {
     };
   }
 
-  // Sidebar on click
+  function formatValue(key, value) {
+    if (key.includes('Expense') || key === 'Value' && getSelectedDataType() === 'funding') {
+      return `$${parseFloat(value).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+    }
+    if (key.includes('Percentage')) {
+      return `${parseFloat(value).toFixed(1)}%`;
+    }
+    if (key.includes('Score') || key === 'Value') {
+      return parseFloat(value).toFixed(2);
+    }
+    return value;
+  }
+
   function onCountyClick(e) {
+    clearHighlightedLayer();
+    highlightCounty(e.target);
+
     const props = e.target.feature.properties;
     const countyName = props.name || props.NAME || 'Unknown County';
 
@@ -107,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (key !== 'name' && key !== 'NAME') {
         const item = document.createElement('div');
         item.className = 'detail-item';
-        item.innerHTML = `<strong>${key}:</strong> <span class="detail-value">${value}</span>`;
+        item.innerHTML = `<strong>${key}:</strong> <span class="detail-value">${formatValue(key, value)}</span>`;
         detailsContainer.appendChild(item);
       }
     });
@@ -122,13 +130,10 @@ document.addEventListener('DOMContentLoaded', function () {
     sidePanel.appendChild(dataMessage);
 
     sidePanel.style.display = 'block';
-    resetHighlight();
-    highlightCounty(e.target);
   }
 
   let geoJSONLayer;
 
-  // Load counties
   fetch('/static/data/california-counties.geojson')
     .then(res => res.json())
     .then(data => {
@@ -137,64 +142,71 @@ document.addEventListener('DOMContentLoaded', function () {
         onEachFeature: function (feature, layer) {
           const name = feature.properties.name || feature.properties.NAME || 'Unknown';
           layer.bindTooltip(name, { permanent: false, direction: 'center', className: 'county-tooltip' });
+
           layer.on({
             click: onCountyClick,
             mouseover: e => {
-              if (layer !== highlightedLayer) {
-                layer.setStyle({ weight: 1.5, color: '#444', fillOpacity: 0.75 });
-                layer.bringToFront();
+              const target = e.target;
+              if (target !== highlightedLayer && target.options._originalStyle) {
+                target.setStyle({
+                  ...target.options._originalStyle,
+                  weight: 2,
+                  color: '#444'
+                });
               }
             },
             mouseout: e => {
-              if (layer !== highlightedLayer) geoJSONLayer.resetStyle(layer);
+              const target = e.target;
+              if (target !== highlightedLayer && target.options._originalStyle) {
+                target.setStyle(target.options._originalStyle);
+              }
             }
           });
         }
       }).addTo(map);
 
-      // Data load and update styles
       const initialToggle = 'funding';
       document.getElementById('data-toggle').value = initialToggle;
-
       loadDataAndUpdate(initialToggle);
     });
 
-    function loadDataAndUpdate(toggleValue) {
-      fetch(`/api/education-data?toggle_value=${toggleValue}`)
-        .then(res => res.json())
-        .then(dataDict => {
-          const key = toggleValue === 'scores' ? 'Value' : 'Expense per ADA';
-          const values = Object.values(dataDict).map(d =>
-            typeof d === 'object' ? d[key] : d
-          ).filter(Number.isFinite);
-    
-          const min = Math.min(...values);
-          const max = Math.max(...values);
-    
-          const colorRange = toggleValue === 'scores'
-            ? ['#deebf7', '#3182bd', '#08519c']
-            : ['#fee5d9', '#fcae91', '#fb6a4a'];
-    
-          geoJSONLayer.eachLayer(layer => {
-            const name = layer.feature.properties.name || layer.feature.properties.NAME;
-            const data = dataDict[name];
-            if (!data) return;
-    
-            const value = typeof data === 'object' ? data[key] : data;
-            const fillColor = getColor(value, min, max, colorRange);
-    
-            layer.setStyle({
-              fillColor,
-              fillOpacity: 0.7,
-              color: '#4a5568',
-              weight: 1
-            });
-    
-            // Merge data into sidebar props
-            Object.assign(layer.feature.properties, data);
+  function loadDataAndUpdate(toggleValue) {
+    fetch(`/api/education-data?toggle_value=${toggleValue}`)
+      .then(res => res.json())
+      .then(dataDict => {
+        const key = toggleValue === 'scores' ? 'Value' : 'Expense per ADA';
+        const values = Object.values(dataDict).map(d => typeof d === 'object' ? d[key] : d).filter(Number.isFinite);
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+
+        const scale = toggleValue === 'scores'
+          ? chroma.scale(['D61F1F', '#FFD301', '#006B3D']).mode('lab').domain([min, max])
+          : chroma.scale(['#006B3D', '#FFD301', '#D61F1F']).mode('lab').domain([min, max]);
+
+        geoJSONLayer.eachLayer(layer => {
+          const name = layer.feature.properties.name || layer.feature.properties.NAME;
+          const data = dataDict[name];
+          if (!data) return;
+
+          const value = (toggleValue === 'scores') ? data['Value'] : data;
+          const style = {
+            fillColor: getColor(value, scale),
+            fillOpacity: 0.7,
+            color: '#4a5568',
+            weight: 1
+          };
+
+          // Clear old data keys
+          ['Mean Score', 'Percentage Passed', 'Expense per ADA', 'Value'].forEach(k => {
+            delete layer.feature.properties[k];
           });
+
+          layer.setStyle(style);
+          layer.options._originalStyle = style;
+          Object.assign(layer.feature.properties, data);
         });
-    }
+      });
+  }
 
   document.getElementById('data-toggle').addEventListener('change', e => {
     const selected = e.target.value;
@@ -203,6 +215,8 @@ document.addEventListener('DOMContentLoaded', function () {
     loadDataAndUpdate(selected);
   });
 });
+
+
 
 // toggle chatbot on click
 document.addEventListener("DOMContentLoaded", function () {
