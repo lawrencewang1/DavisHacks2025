@@ -8,9 +8,15 @@ document.addEventListener('DOMContentLoaded', function() {
     boxZoom: true,
     touchZoom: true,
     attributionControl: true,
-    minZoom: 6,  // Minimum zoom level
-    maxZoom: 9  // Maximum zoom level
+    minZoom: 6,
+    maxZoom: 9
   }).setView([37.5, -119.5], 6);
+
+  const calBounds = L.latLngBounds(
+    [32.5, -125], // Southwest corner (lat, lng)
+    [42.1, -113.5] // Northeast corner
+  );
+  map.setMaxBounds(calBounds);
 
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
