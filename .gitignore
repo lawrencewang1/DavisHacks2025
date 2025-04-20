@@ -5,3 +5,4 @@ sb_ca2024entities_csv.txt
 env/
 .env
 node_modules/
+.venv/
