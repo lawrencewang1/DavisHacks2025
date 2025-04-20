@@ -21,14 +21,27 @@ document.addEventListener('DOMContentLoaded', function () {
   legend.onAdd = function () {
     const div = L.DomUtil.create('div', 'info legend');
     div.style = 'background:white;padding:10px;border-radius:4px;box-shadow:0 1px 5px rgba(0,0,0,0.2)';
-    div.innerHTML = `
-      <h4 style="margin:0 0 10px;font-size:14px;font-weight:600;">Data Legend</h4>
-      <div style="display:flex;align-items:center;margin-bottom:5px;"><span style="width:15px;height:15px;margin-right:5px;background-color:#deebf7;display:inline-block;"></span> Low</div>
-      <div style="display:flex;align-items:center;margin-bottom:5px;"><span style="width:15px;height:15px;margin-right:5px;background-color:#6baed6;display:inline-block;"></span> Medium</div>
-      <div style="display:flex;align-items:center;"><span style="width:15px;height:15px;margin-right:5px;background-color:#08306b;display:inline-block;"></span> High</div>
-    `;
+    updateLegend(div, 'funding'); // initial legend
     return div;
   };
+
+  function updateLegend(div, toggleValue) {
+    let colors, label;
+    if (toggleValue === 'scores') {
+      colors = ['#E0F7FA', '#80B8D9', '#003366'];  // light → mid → dark blue
+      label = 'Scores';
+    } else {
+      colors = ['#FFE5E5', '#FF9999', '#660000'];  // light → mid → dark red
+      label = 'Funding';
+    }
+
+    div.innerHTML = `
+      <h4 style="margin:0 0 10px;font-size:14px;font-weight:600;">${label} Legend</h4>
+      <div style="display:flex;align-items:center;margin-bottom:5px;"><span style="width:15px;height:15px;margin-right:5px;background-color:${colors[0]};display:inline-block;"></span> Low</div>
+      <div style="display:flex;align-items:center;margin-bottom:5px;"><span style="width:15px;height:15px;margin-right:5px;background-color:${colors[1]};display:inline-block;"></span> Medium</div>
+      <div style="display:flex;align-items:center;"><span style="width:15px;height:15px;margin-right:5px;background-color:${colors[2]};display:inline-block;"></span> High</div>
+    `;
+  }
   legend.addTo(map);
 
   const sidePanel = document.createElement('div');
@@ -171,6 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
   function loadDataAndUpdate(toggleValue) {
+    updateLegend(document.querySelector('.info.legend'), toggleValue);
     fetch(`/api/education-data?toggle_value=${toggleValue}`)
       .then(res => res.json())
       .then(dataDict => {
@@ -180,8 +194,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const max = Math.max(...values);
 
         const scale = toggleValue === 'scores'
-          ? chroma.scale(['D61F1F', '#FFD301', '#006B3D']).mode('lab').domain([min, max])
-          : chroma.scale(['#D61F1F', '#FFD301', '#006B3D']).mode('lab').domain([min, max]);
+          ? chroma.scale(['#E0F7FA', '#003366']).mode('lab').domain([min, max])
+          : chroma.scale(['#FFE5E5', '#660000']).mode('lab').domain([min, max]);
 
         geoJSONLayer.eachLayer(layer => {
           const name = layer.feature.properties.name || layer.feature.properties.NAME;
