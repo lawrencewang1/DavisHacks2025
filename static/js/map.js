@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const scale = toggleValue === 'scores'
           ? chroma.scale(['D61F1F', '#FFD301', '#006B3D']).mode('lab').domain([min, max])
-          : chroma.scale(['#006B3D', '#FFD301', '#D61F1F']).mode('lab').domain([min, max]);
+          : chroma.scale(['#D61F1F', '#FFD301', '#006B3D']).mode('lab').domain([min, max]);
 
         geoJSONLayer.eachLayer(layer => {
           const name = layer.feature.properties.name || layer.feature.properties.NAME;
