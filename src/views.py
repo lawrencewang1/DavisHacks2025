@@ -24,7 +24,9 @@ def toggle():
 def funding_map():
     df = read_final()
     return {
-        row['County Name']: row['Expense per ADA']
+        row['County Name']: {
+            'Expense per ADA': row['Expense per ADA']
+        }
         for _, row in df.iterrows()
         if row['County Name'] != 'Alpine'
     }

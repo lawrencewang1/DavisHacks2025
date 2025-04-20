@@ -196,6 +196,7 @@ body {
 
 .detail-value {
   flex-grow: 1;
+  text-align: right;
 }
 
 /* Data visualization section */

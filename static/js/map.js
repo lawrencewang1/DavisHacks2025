@@ -124,8 +124,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const detailsContainer = document.createElement('div');
     detailsContainer.className = 'county-details';
 
+    const excludedKeys = new Set(['name', 'NAME', 'cartodb_id', 'created_at', 'updated_at']);
+
     Object.entries(props).forEach(([key, value]) => {
-      if (key !== 'name' && key !== 'NAME') {
+      if (!excludedKeys.has(key)) {
         const item = document.createElement('div');
         item.className = 'detail-item';
         item.innerHTML = `<strong>${key}:</strong> <span class="detail-value">${formatValue(key, value)}</span>`;
@@ -202,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function () {
           const data = dataDict[name];
           if (!data) return;
 
-          const value = (toggleValue === 'scores') ? data['Value'] : data;
+          const value = (toggleValue === 'scores') ? data['Value'] : data['Expense per ADA'];
           const style = {
             fillColor: getColor(value, scale),
             fillOpacity: 0.7,
