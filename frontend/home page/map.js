@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const financeScaleMin = 15000;
   const financeScaleMax = 60000;
 
-  const mapBounds = L.latLngBounds([30, -126], [42, -113.5]);
+  const mapBounds = L.latLngBounds([33, -126], [42, -113.5]);
 
   const map = L.map('map', {
     zoomControl: true,
