@@ -183,29 +183,44 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to update map styles based on data type (funding or scores)
     function updateMapStyles(dataDict, selectedKey, toggleValue) {
       geoJSONLayer.eachLayer(layer => {
-        const countyName = layer.feature.properties.name || layer.feature.properties.NAME;
-        const countyData = dataDict[countyName];
-
-        if (countyData && countyData[selectedKey] !== undefined) {
-          const value = countyData[selectedKey];
-
-          // Get the appropriate color based on the toggle value
-          const fillColor = toggleValue === 'funding'
-            ? getFundingColor(value)
-            : getTestingColor(value);
-
-          layer.setStyle({
-            fillColor: fillColor,
-            fillOpacity: 0.7,
-            color: '#4a5568',
-            weight: 1
-          });
-
-          // Update properties with current data (optional for showing in the sidebar)
-          Object.assign(layer.feature.properties, countyData);
-        }
+          const countyName = layer.feature.properties.name || layer.feature.properties.NAME;
+          const countyData = dataDict[countyName];
+  
+          // Handle both flat and nested dictionary structures
+          let value;
+          if (countyData !== undefined) {
+              // If the countyData is a nested object (like from testing_map)
+              if (typeof countyData === 'object' && countyData[selectedKey] !== undefined) {
+                  value = countyData[selectedKey];
+              } 
+              // If the countyData is a direct value (like from funding_map)
+              else if (typeof countyData !== 'object' && selectedKey === 'value') {
+                  value = countyData;
+              }
+          }
+  
+          if (value !== undefined) {
+              // Get the appropriate color based on the toggle value
+              const fillColor = toggleValue === 'funding'
+                  ? getFundingColor(value)
+                  : getTestingColor(value);
+  
+              layer.setStyle({
+                  fillColor: fillColor,
+                  fillOpacity: 0.7,
+                  color: '#4a5568',
+                  weight: 1
+              });
+  
+              // Update properties with current data (optional for showing in the sidebar)
+              if (typeof countyData === 'object') {
+                  Object.assign(layer.feature.properties, countyData);
+              } else {
+                  layer.feature.properties.value = countyData;
+              }
+          }
       });
-    }
+  }
 
     // Function to handle color gradients for funding
     function getFundingColor(value) {
