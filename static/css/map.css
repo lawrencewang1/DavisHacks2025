@@ -238,7 +238,7 @@ body {
   }
 }
 
-/* Chatbot Design - Updated */
+/* Chatbot stuff */
 
 .chat-window {
   border: 1px solid #e2e8f0;
@@ -279,7 +279,7 @@ body {
 .chat {
   flex: 1;
   padding: 12px;
-  overflow-y: auto; /* Allow scrolling for chat history */
+  overflow-y: auto;
 }
 
 .chat p {
@@ -360,7 +360,7 @@ body {
   border: none;
   font-size: 24px;
   cursor: pointer;
-  z-index: 1001; /* Just above the chatbot */
+  z-index: 1001;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
