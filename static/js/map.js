@@ -220,3 +220,38 @@ document.addEventListener("DOMContentLoaded", function () {
     toggleBtn.style.display = "flex";
   });
 });
+
+// sending message
+function sendMessage() {
+  const userMessage = document.querySelector(".chat-window input").value;
+
+  if (userMessage.length) {
+    document.querySelector(".chat-window input").value = "";
+    document.querySelector(".chat-window .chat").insertAdjacentHTML("beforeend", `
+      <div class="user">
+        <p>${userMessage}</p>
+      </div>
+    `)
+    fetch('/process', {
+      method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain'
+        },
+        body: 'Getting model response.'
+      })
+      .then(response => response.text())
+      .then(data => {
+          console.log('Response from server:', data);
+          document.querySelector(".chat-window .chat").insertAdjacentHTML("beforeend", `
+            <div class="model">
+              <p>${data}</p>
+            </div>
+          `)
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+  }
+}
+
+document.querySelector(".chat-window .input-area button").addEventListener("click", ()=>sendMessage());
