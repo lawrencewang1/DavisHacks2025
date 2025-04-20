@@ -7,3 +7,4 @@ env/
 node_modules/
 .venv/
 __pycache__
+src/__pycache__
