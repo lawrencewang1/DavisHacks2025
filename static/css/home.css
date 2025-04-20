@@ -1,302 +1,87 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Playwrite GB S", serif;
-}
 
-body, html {
+body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  background-color: #f8f9fa;
+  font-family: 'Playwrite GB S', sans-serif;
+  background-color: #f9f9f9;
   color: #333;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
 }
 
 .container {
-  width: 100%;
-  min-height: 100vh;
-  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
-/* NAVIGATION BAR */
+/* Navbar Styles */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 2rem;
-  position: fixed;
+  padding: 1rem 0;
+  border-bottom: 1px solid #ddd;
+  background-color: white;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  background-color: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
-  transition: background-color 0.3s ease;
-}
-
-.navbar.scrolled {
-  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
 }
 
 .logo {
-  color: white;
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.nav-links {
-  display: flex;
-  gap: 2rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2e6edc;
 }
 
 .nav-links a {
-  color: white;
+  margin-left: 2rem;
   text-decoration: none;
-  font-size: 1.1rem;
+  color: #333;
   font-weight: 500;
-  position: relative;
-  padding: 0.5rem 0;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
 }
 
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background-color: white;
-  transition: width 0.3s ease;
+.nav-links a:hover {
+  color: #2e6edc;
 }
 
-.nav-links a:hover::after {
-  width: 100%;
-}
-
-/* HERO SECTION */
+/* Hero Section */
 .hero-section {
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
-}
-
-.context {
-  position: absolute;
-  width: 50%;
-  height: 100%;
-  z-index: 10;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 70vh;
   text-align: center;
-  color: #F4F4ED;
-  padding: 0 4rem;
-  right: 0;
+  background-color: #e8f0fe;
+  border-radius: 12px;
+  margin-top: 2rem;
+  padding: 2rem;
 }
 
-.context h1 {
-  font-size: 5.5rem;
+.hero-section h1 {
+  font-size: 3rem;
   margin-bottom: 1rem;
-  transition: transform 0.3s ease;
-  cursor: pointer;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.context h1:hover {
-  transform: scale(1.05);
 }
 
 .tagline {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   margin-bottom: 2rem;
-  opacity: 0.9;
-}
-
-.buttons {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.btn {
-  text-decoration: none;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
+  color: #555;
 }
 
 .explore-btn {
-  background-color: rgba(255, 255, 255, 0.9);
-  color: #333;
-}
-
-.mission-btn {
-  background-color: transparent;
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  color: #fff;
-}
-
-.explore-btn:hover, .mission-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.mission-btn:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-/* DATA GRAPH CHART */
-.chart-container {
-  width: 100%;
-  margin-top: 2rem;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-  padding: 1.5rem;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-}
-
-.chart-selector {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-}
-
-.chart-btn {
-  background: none;
-  border: none;
-  color: rgba(255, 255, 255, 0.7);
-  padding: 0.5rem 1rem;
-  margin: 0 0.5rem;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-  font-weight: 500;
-}
-
-.chart-btn.active {
-  background-color: rgba(255, 255, 255, 0.2);
-  color: #fff;
-}
-
-.chart-btn:hover:not(.active) {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-#dataChart {
-  width: 100% !important;
-  height: 250px !important;
-}
-
-/* MISSION SECTION */
-.mission-section {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6rem 3rem;
-  position: relative;
-  z-index: 10;
-}
-
-.mission-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(15px);
-  padding: 3rem;
-  border-radius: 16px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-  color: #F4F4ED;
-  transform: translateY(50px);
-  opacity: 0;
-  transition: transform 0.8s ease, opacity 0.8s ease;
-}
-
-.mission-content.visible {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.mission-content h2 {
-  font-size: 3rem;
-  margin-bottom: 1.5rem;
-  color: #fff;
-  text-align: center;
-  position: relative;
-  padding-bottom: 1rem;
-}
-
-.mission-content h2::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 3px;
-  background: linear-gradient(90deg, #8f94fb, #4e54c8);
-}
-
-.mission-content p {
-  font-size: 1.2rem;
-  margin-bottom: 3rem;
-  line-height: 1.8;
-  text-align: center;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.mission-stats {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 2rem;
-}
-
-.stat-box {
-  flex: 1;
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 2rem;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 200px;
-  transition: all 0.3s ease;
-}
-
-.stat-box:hover {
-  transform: translateY(-8px);
-  background-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.stat-number {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  background: linear-gradient(135deg, #8f94fb, #4e54c8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.stat-label {
+  padding: 0.75rem 1.5rem;
   font-size: 1rem;
-  text-align: center;
-  line-height: 1.5;
+  background-color: #2e6edc;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
 }
+
+.explore-btn:hover {
+  background-color: #1a50b3;
+}
+
 
 /* BACKGROUND ANIMATION */
 .area {
